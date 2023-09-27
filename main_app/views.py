@@ -1,21 +1,28 @@
 from django.shortcuts import render, redirect
-from .models import Post
+from django.db.models import Q
+from .models import Post, Topic
 from .forms import PostForm
 
 # from django.http import HttpResponse
 
 
-# temp_db = [
-#     {"post_id": 1, "title": "post 1", "content": "content 1"},
-#     {"post_id": 2, "title": "post 2", "content": "content 2"},
-#     {"post_id": 3, "title": "post 3", "content": "content 3"},
-#     {"post_id": 4, "title": "post 4", "content": "content 4"},
-# ]
-
-
 def home(request):
-    posts_db = Post.objects.all()
-    context = {"posts": posts_db}
+    query_param = (
+        request.GET.get("q") if request.GET.get("q") is not None else ""
+    )
+    posts = Post.objects.filter(
+        Q(topic__title__icontains=query_param)
+        | Q(title__icontains=query_param)
+        | Q(content__icontains=query_param)
+    )
+    topics = Topic.objects.all()
+    posts_count = posts.count()
+
+    context = {
+        "posts": posts,
+        "topics": topics,
+        "posts_count": posts_count,
+    }
     return render(request, "main_app/home.html", context)
 
 
@@ -24,11 +31,6 @@ def about(request):
 
 
 def post(request, post_id):
-    # post = None
-    # for temp_post in temp_db:
-    #     if temp_post["post_id"] == post_id:
-    #         post = temp_post
-
     post = Post.objects.get(id=post_id)
     context = {"post": post}
     # value we get from <int:post_id> is passed to
