@@ -72,3 +72,9 @@ def topics_page(request):
     topics = Topic.objects.filter(title__icontains=query_param)
     context = {"topics": topics}
     return render(request, "main_app/topics.html", context)
+
+
+def activity_page(request):
+    comments = Comment.objects.all()
+    context = {"comments": comments}
+    return render(request, "main_app/activity.html", context)
