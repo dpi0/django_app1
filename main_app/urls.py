@@ -18,7 +18,7 @@ from .views_drivers.views_crud_comment import (
     update_comment,
     delete_comment,
 )
-from .views_drivers.views_user_profile import user_profile
+from .views_drivers.views_user_profile import user_profile, update_user
 
 urlpatterns = [
     path("login/", login_view, name="login"),
@@ -28,6 +28,7 @@ urlpatterns = [
     path("home/", home, name="home"),
     path("about", about, name="about"),
     path("user/<str:username>/", user_profile, name="profile"),
+    path("update_user/", update_user, name="update_user"),
     path("post/<int:post_id>/", post, name="post"),
     path("create_post/", create_post, name="create_post"),
     path("update_post/<int:post_id>/", update_post, name="update_post"),

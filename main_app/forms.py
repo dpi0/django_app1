@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Post, Comment
+from .models import Post, Comment, User
 
 
 # NOTE: this uses the fields of "Post" model & uses django's ModelForm to auto
@@ -16,3 +16,9 @@ class CommentForm(ModelForm):
         model = Comment
         fields = ["content"]
         # fields = "__all__"
+
+
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ["username", "email"]

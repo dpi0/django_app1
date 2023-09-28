@@ -20,11 +20,11 @@
         {% if request.user == post.owner %}
         <div class="room__topRight">
           <a href="{% url 'update_post' post.id %}">
-            Edit
+            Edit Post
             ✏️
           </a>
           <a href="{% url 'delete_post' post.id %}">
-            Delete
+            Delete Post
             🗑️
           </a>
         </div>
