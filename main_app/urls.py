@@ -1,9 +1,5 @@
 from django.urls import path
-from .views import (
-    home,
-    about,
-    post,
-)
+from .views import home, about, post, topics_page
 from .views_drivers.views_auth import (
     login_view,
     logout_view,
@@ -43,4 +39,5 @@ urlpatterns = [
         delete_comment,
         name="delete_comment",
     ),
+    path("topics/", topics_page, name="topics"),
 ]

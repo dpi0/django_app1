@@ -22,7 +22,7 @@ def home(request):
     # NOTE: topic __ (double _) title means for "topic" var in Post
     # go to the parent of this "topic" var and get the "title"
     # i.e the foreign key
-    topics = Topic.objects.all()
+    topics = Topic.objects.all()[0:5]
     # comments = Comment.objects.filter(post__title__icontains=)
     posts_count = posts.count()
     # comments_count = comments.count()
@@ -63,3 +63,12 @@ def post(request, post_id):
     # this function, and we can pass on this value to the template
     # using "context" which should be a dict
     return render(request, "main_app/post.html", context)
+
+
+def topics_page(request):
+    query_param = (
+        request.GET.get("q") if request.GET.get("q") is not None else ""
+    )
+    topics = Topic.objects.filter(title__icontains=query_param)
+    context = {"topics": topics}
+    return render(request, "main_app/topics.html", context)
