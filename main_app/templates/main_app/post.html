@@ -2,52 +2,127 @@
 
 {%block content%}
 
-
-<h1>Posts</h1>
-<h2>{{ post.title }}</h2>
-<p>{{ post.content }}</p>
-
-
-
-<div class="comment-wrapper">
-    <h3>Comments</h3>
-    <hr>
-
-    {% if request.user.is_authenticated %}
-    <div class="comment-form">
-        <form method="POST">
-            {% csrf_token %}
-            <!-- {{ form.as_p }} -->
-            <input type="text" name="body" placeholder="Enter Comment..">
-            <!-- <input type="submit" value="Submit" /> -->
-        </form>
-    </div>
-
-    {% else %}
-    <p>Sign in to comment</p>
-
-    {% endif %}
-
-    {% for comment in post_comments %}
-
-    <div>
-        <p>{{ comment.content }}</p>
-        <small><a href="{% url 'profile' comment.owner.username %}">@{{ comment.owner }}</a></small>
-
-        <small>said {{ comment.created_at|timesince }} ago</small>
-        <br>
-        <small>Updated: {{ comment.updated_at|timesince }} ago</small>
-        {% if request.user == comment.owner %}
-        <small><a href="{% url 'update_comment' comment.id %}">✏️ Edit</a></small>
-        <small><a href="{% url 'delete_comment' comment.id %}">🗑️ Delete</a></small>
+<main class="profile-page layout layout--2">
+  <div class="container">
+    <!-- Room Start -->
+    <div class="room">
+      <div class="room__top">
+        <div class="room__topLeft">
+          <a href="{% url 'home' %}">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+              <title>arrow-left</title>
+              <path
+                d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z">
+              </path>
+            </svg>
+          </a>
+        </div>
+        {% if request.user == post.owner %}
+        <div class="room__topRight">
+          <a href="{% url 'update_post' post.id %}">
+            Edit
+            ✏️
+          </a>
+          <a href="{% url 'delete_post' post.id %}">
+            Delete
+            🗑️
+          </a>
+        </div>
         {% endif %}
-        <hr>
+
+
+        <!-- <button class="action-button" data-id="120" data-delete-url="https://randomuser.me/api/3324923"
+            data-edit-url="profile.html">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+              <title>ellipsis-horizontal</title>
+              <path
+                d="M16 7.843c-2.156 0-3.908-1.753-3.908-3.908s1.753-3.908 3.908-3.908c2.156 0 3.908 1.753 3.908 3.908s-1.753 3.908-3.908 3.908zM16 1.98c-1.077 0-1.954 0.877-1.954 1.954s0.877 1.954 1.954 1.954c1.077 0 1.954-0.877 1.954-1.954s-0.877-1.954-1.954-1.954z">
+              </path>
+              <path
+                d="M16 19.908c-2.156 0-3.908-1.753-3.908-3.908s1.753-3.908 3.908-3.908c2.156 0 3.908 1.753 3.908 3.908s-1.753 3.908-3.908 3.908zM16 14.046c-1.077 0-1.954 0.877-1.954 1.954s0.877 1.954 1.954 1.954c1.077 0 1.954-0.877 1.954-1.954s-0.877-1.954-1.954-1.954z">
+              </path>
+              <path
+                d="M16 31.974c-2.156 0-3.908-1.753-3.908-3.908s1.753-3.908 3.908-3.908c2.156 0 3.908 1.753 3.908 3.908s-1.753 3.908-3.908 3.908zM16 26.111c-1.077 0-1.954 0.877-1.954 1.954s0.877 1.954 1.954 1.954c1.077 0 1.954-0.877 1.954-1.954s-0.877-1.954-1.954-1.954z">
+              </path>
+            </svg>
+          </button> -->
+      </div>
+      <div class="room__box scroll">
+        <div class="room__header scroll">
+          <div class="room__info">
+            <h3>{{ post.title }}</h3>
+            <span>{{ post.created_at|timesince }} ago</span>
+          </div>
+          <div class="room__hosted">
+            <a href="{% url 'profile' post.owner.username %}" class="room__author">
+              <div class="avatar avatar--small">
+                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
+              </div>
+              <span>@{{post.owner.username}}</span>
+            </a>
+          </div>
+          <div class="room__details">
+            {{ post.content }}
+          </div>
+          <span class="room__topics">#{{ post.topic.title }}</span>
+        </div>
+        <div class="room__conversation">
+          <div class="threads scroll">
+            {% for comment in post_comments %}
+
+            <div class="thread">
+              <div class="thread__top">
+                <div class="thread__author">
+                  <a href="{% url 'profile' comment.owner.username %}" class="thread__authorInfo">
+                    <div class="avatar avatar--small">
+                      <img src="https://randomuser.me/api/portraits/men/37.jpg" />
+                    </div>
+                    <span>@{{comment.owner}}</span>
+                  </a>
+                  <span class="thread__date">{{ comment.created_at|timesince }} ago</span>
+                </div>
+                {% if request.user == comment.owner %}
+
+                <div class="thread__delete">
+                  <a href="{% url 'update_comment' comment.id %}">✏️ Edit</a>
+                </div>
+                <div class="thread__delete">
+                  <a href="{% url 'delete_comment' comment.id %}">🗑️ Delete</a>
+                </div>
+                {% endif %}
+
+              </div>
+              <div class="thread__details">
+                {{ comment.content }}
+              </div>
+            </div>
+
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+      <div class="room__message">
+        <form method="POST">
+          {% csrf_token %}
+          {% if request.user.is_authenticated %}
+
+          <input type="text" name="body" placeholder="Enter Comment..">
+
+          {% else %}
+          <!-- <span style="padding-left: 10px;"> Sign in to comment</span> -->
+          <input type="text" name="body" placeholder="Sign in to comment" disabled>
+
+          {% endif %}
+        </form>
+      </div>
     </div>
+    <!-- Room End -->
 
-    {% endfor %}
-</div>
+    <div class="participants">
 
-
-
-
-{%endblock content%}
+    </div>
+  </div>
+</main>
+<script src="script.js"></script>
+{% endblock %}

@@ -1,20 +1,36 @@
-<div>
-    {% for post in posts %}
-    <div>
-        <h3><a href="{% url 'post' post.id %}">{{ post.title }}</a></h3>
-        <a href="{% url 'profile' post.owner.username %}">@{{ post.owner.username }}</a>
-        <small>({{ post.topic }})</small>
+{% for post in posts %}
 
-        {% if request.user == post.owner %}
-        <small><a href="{% url 'update_post' post.id %}">✏️ Edit</a></small>
-        <small><a href="{% url 'delete_post' post.id %}">🗑️ Delete</a></small>
-        {% endif %}
-        <br>
-        <small>Created on: {{ post.created_at }}</small>
-
-        <br>
-        <small>Post Updated on: {{ post.updated_at }}</small>
+<div class="roomListRoom">
+    <div class="roomListRoom__header">
+        <a href="{% url 'profile' post.owner.username %}" class="roomListRoom__author">
+            <div class="avatar avatar--small">
+                <img src="https://randomuser.me/api/portraits/women/11.jpg" />
+            </div>
+            <span>@{{post.owner.username}}</span>
+        </a>
+        <div class="roomListRoom__actions">
+            <span>{{post.created_at|timesince}} ago</span>
+        </div>
     </div>
-    <hr>
-    {% endfor %}
+    <div class="roomListRoom__content">
+        <a href="{% url 'post' post.id %}">{{post.title}}</a>
+    </div>
+    <div class="roomListRoom__meta">
+        <a href="{% url 'post' post.id %}" class="roomListRoom__joined">
+
+            <svg width="800px" height="800px" viewBox="0 -2 24 24" id="meteor-icon-kit__regular-comment" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M5 2C3.34315 2 2 3.34315 2 5V17.9868L5.64242 15H19C20.6569 15 22 13.6569 22 12V5C22 3.34315 20.6569 2 19 2H5zM6.35758 17L3.26816 19.5333C2.41403 20.2337 1.15385 20.1091 0.453464 19.2549C0.160246 18.8974 0 18.4492 0 17.9868V5C0 2.23858 2.23858 0 5 0H19C21.7614 0 24 2.23858 24 5V12C24 14.7614 21.7614 17 19 17H6.35758z"
+                    fill="#758CA3" />
+            </svg>
+            {{post.comment_set.count}} Comments
+        </a>
+        <p class="roomListRoom__topic">#{{post.topic.title}}</p>
+    </div>
 </div>
+
+
+
+
+{% endfor %}

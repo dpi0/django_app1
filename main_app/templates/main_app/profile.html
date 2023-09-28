@@ -1,35 +1,46 @@
 {% extends "base.html" %} {%block content%}
 
-<h1>Profile</h1>
-<h1>{{ user.username }}</h1>
-<h3>Email: {{ user.email }}</h3>
+<main class="profile-page layout layout--3">
+  <div class="container">
+    {% include 'main_app/drivers/topics_driver.html' %}
 
-<small>Joined on: {{ user.date_joined }}</small>
-<br>
-<small>Last Login on: {{ user.last_login }}</small>
 
-<style>
-    .profile-container {
-        display: grid;
-        grid-template-columns: 1fr 3fr 1fr;
-    }
-</style>
 
-<div class="profile-container">
-    <div>
-        <h3>Your Topics</h3>
-        {% include 'main_app/drivers/topics_driver.html' %}
+    <!-- Room List Start -->
+    <div class="roomList">
+      <div class="profile">
+        <div class="profile__avatar">
+          <div class="avatar avatar--large active">
+            <img src="https://randomuser.me/api/portraits/men/11.jpg" />
+          </div>
+        </div>
+        <div class="profile__info">
+          <h3>{{user.username}}</h3>
+          <p>@{{user.username}}</p>
+          <a href="edit-user.html" class="btn btn--main btn--pill">Edit Profile</a>
+        </div>
+        <div class="profile__about">
+          <h3>About</h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur illo tenetur
+            facilis sunt nemo debitis quisquam hic atque aut? Ducimus alias placeat optio
+            accusamus repudiandae quis ab ex exercitationem rem?
+          </p>
+        </div>
+      </div>
+
+      <div class="roomList__header">
+        <div>
+          <h2>Posts by @{{user.username}}</a>
+          </h2>
+        </div>
+      </div>
+      {% include 'main_app/drivers/home_feed_driver.html' %}
+
     </div>
+    <!-- Room List End -->
 
-    <div>
-        <h3>{{user.username}}'s Posts</h3>
-        {% include 'main_app/drivers/home_feed_driver.html' %}
-    </div>
-
-    <div>
-        <h3>{{user.username}}'s Comments</h3>
-        {% include 'main_app/drivers/activity_driver.html' %}
-    </div>
-</div>
-
-{% endblock content%}
+    {% include 'main_app/drivers/activity_driver.html' %}
+  </div>
+</main>
+{% endblock %}

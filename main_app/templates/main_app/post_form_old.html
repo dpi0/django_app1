@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div>
+    <h1>Add Post</h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit" />
+        <a href="{{request.META.HTTP_REFERER}}">Go back</a>
+    </form>
+</div>
+
+
+
+{% endblock content %}

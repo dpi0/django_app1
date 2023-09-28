@@ -1,12 +1,29 @@
-<hr>
-{% for comment in post_comments %}
-<div>
-    <small><a href="{% url 'profile' comment.owner.username %}">@{{ comment.owner }}</a></small>
-    <small>{{ comment.created_at|timesince }} ago</small>
+<div class="activities">
+    <div class="activities__header">
+        <h2>Recent Comments</h2>
+    </div>
+    {% for comment in post_comments %}
 
-    <small>said</small>
-    <br>
-    <small>{{ comment.content }}</small>
-    <hr>
+    <div class="activities__box">
+        <div class="activities__boxHeader roomListRoom__header">
+            <a href="{% url 'profile' comment.owner.username %}" class="roomListRoom__author">
+                <div class="avatar avatar--small">
+                    <img src="https://randomuser.me/api/portraits/women/11.jpg" />
+                </div>
+                <p>
+                    @{{ comment.owner }}
+                    <span>{{ comment.created_at|timesince }} ago</span>
+                </p>
+            </a>
+        </div>
+        <div class="activities__boxContent">
+            <p>said on <a href="{% url 'post' comment.post.id %}">{{ comment.post.title }}</a></p>
+            <div class="activities__boxRoomContent">
+                {{ comment.content }}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
 </div>
-{% endfor %}
