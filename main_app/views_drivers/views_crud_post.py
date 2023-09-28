@@ -13,7 +13,11 @@ def create_post(request):
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
-            form.save()  # save/commit to sqlite3 DB
+            post = form.save(commit=False)  # doesn't commit here
+            post.owner = (
+                request.user
+            )  # auto adds the current logged in user to the post
+            form.save()
             return redirect("home")
 
     context = {"form": form}

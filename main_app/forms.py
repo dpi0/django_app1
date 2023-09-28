@@ -8,7 +8,7 @@ class PostForm(ModelForm):
     class Meta:
         model = Post
         fields = "__all__"
-        # fields = ["topic", "title", "content"]
+        exclude = ["owner", "created_at", "updated_at"]
 
 
 class CommentForm(ModelForm):
