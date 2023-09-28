@@ -1,15 +1,24 @@
 from django.db import models
-from django.contrib.auth.models import User
+
+# from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
 timeNow = timezone.localtime(timezone.now())
 
 
+class User(AbstractUser):
+    name = models.CharField(max_length=255, null=True)
+    email = models.EmailField(unique=True)
+    about_user = models.TextField(null=True)
+    profile_photo = models.ImageField(null=True, default="avatar.svg")
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+
+
 def get_time():
     return timezone.localtime(timezone.now())
-
-
-# Create your models here.
 
 
 class Topic(models.Model):
