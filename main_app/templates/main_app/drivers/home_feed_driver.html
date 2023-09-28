@@ -1,0 +1,20 @@
+<div>
+    {% for post in posts %}
+    <div>
+        <h3><a href="{% url 'post' post.id %}">{{ post.title }}</a></h3>
+        <a href="{% url 'profile' post.owner.username %}">@{{ post.owner.username }}</a>
+        <small>({{ post.topic }})</small>
+
+        {% if request.user == post.owner %}
+        <small><a href="{% url 'update_post' post.id %}">✏️ Edit</a></small>
+        <small><a href="{% url 'delete_post' post.id %}">🗑️ Delete</a></small>
+        {% endif %}
+        <br>
+        <small>Created on: {{ post.created_at }}</small>
+
+        <br>
+        <small>Post Updated on: {{ post.updated_at }}</small>
+    </div>
+    <hr>
+    {% endfor %}
+</div>

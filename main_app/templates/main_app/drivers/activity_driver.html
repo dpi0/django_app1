@@ -1,0 +1,12 @@
+<hr>
+{% for comment in post_comments %}
+<div>
+    <small><a href="{% url 'profile' comment.owner.username %}">@{{ comment.owner }}</a></small>
+    <small>{{ comment.created_at|timesince }} ago</small>
+
+    <small>said</small>
+    <br>
+    <small>{{ comment.content }}</small>
+    <hr>
+</div>
+{% endfor %}

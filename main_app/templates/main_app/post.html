@@ -4,8 +4,50 @@
 
 
 <h1>Posts</h1>
-<h2>{{post.title}}</h2>
-<p>{{post.content}}</p>
+<h2>{{ post.title }}</h2>
+<p>{{ post.content }}</p>
+
+
+
+<div class="comment-wrapper">
+    <h3>Comments</h3>
+    <hr>
+
+    {% if request.user.is_authenticated %}
+    <div class="comment-form">
+        <form method="POST">
+            {% csrf_token %}
+            <!-- {{ form.as_p }} -->
+            <input type="text" name="body" placeholder="Enter Comment..">
+            <!-- <input type="submit" value="Submit" /> -->
+        </form>
+    </div>
+
+    {% else %}
+    <p>Sign in to comment</p>
+
+    {% endif %}
+
+    {% for comment in post_comments %}
+
+    <div>
+        <p>{{ comment.content }}</p>
+        <small><a href="{% url 'profile' comment.owner.username %}">@{{ comment.owner }}</a></small>
+
+        <small>said {{ comment.created_at|timesince }} ago</small>
+        <br>
+        <small>Updated: {{ comment.updated_at|timesince }} ago</small>
+        {% if request.user == comment.owner %}
+        <small><a href="{% url 'update_comment' comment.id %}">✏️ Edit</a></small>
+        <small><a href="{% url 'delete_comment' comment.id %}">🗑️ Delete</a></small>
+        {% endif %}
+        <hr>
+    </div>
+
+    {% endfor %}
+</div>
+
+
 
 
 {%endblock content%}
