@@ -1,0 +1,28 @@
+{% extends "base.html" %} {%block content%}
+
+<style>
+    .home-container {
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+    }
+</style>
+
+<div class="home-container">
+    <div>
+        <h3>Browse Topics</h3>
+        {% include 'main_app/drivers/topics_driver.html' %}
+    </div>
+    <div>
+        <h1>Home</h1>
+        <a href="{% url 'create_post' %}">📨 Create a New Post!</a>
+        <h5>{{posts_count}} posts are present.</h5>
+        {% include 'main_app/drivers/home_feed_driver.html' %}
+    </div>
+
+    <div>
+        <h3>Recent Activity</h3>
+        {% include 'main_app/drivers/activity_driver.html' %}
+    </div>
+</div>
+
+{%endblock content%}
