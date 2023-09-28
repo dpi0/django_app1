@@ -34,7 +34,8 @@ def update_user(request):
     form = UserForm(instance=request.user)
 
     if request.method == "POST":
-        form = UserForm(request.POST, instance=request.user)
+        # NOTE: request.FILES is to upload a file
+        form = UserForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             return redirect("profile", request.user.username)

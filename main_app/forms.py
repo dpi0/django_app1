@@ -1,6 +1,8 @@
 from django.forms import ModelForm
 from .models import Post, Comment, User
 
+from django.contrib.auth.forms import UserCreationForm
+
 
 # NOTE: this uses the fields of "Post" model & uses django's ModelForm to auto
 # create the form
@@ -21,4 +23,22 @@ class CommentForm(ModelForm):
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ["username", "email"]
+        fields = [
+            "profile_photo",
+            "username",
+            "name",
+            "email",
+            "about_user",
+        ]
+
+
+class UserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = [
+            "name",
+            "username",
+            "email",
+            "password1",
+            "password2",
+        ]
